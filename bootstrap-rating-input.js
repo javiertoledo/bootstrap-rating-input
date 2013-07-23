@@ -17,7 +17,7 @@
       var self = $(ratingInput);
       self.find('i').removeClass('icon-star').addClass('icon-star-empty');
       self.find('.rating-clear').hide();
-      self.find('input').val('');
+      self.find('input').val('').trigger('change');
     }
 
     // Iterate and transform all selected inputs
@@ -83,7 +83,7 @@
       .on('click', 'i', function () {
         var self = $(this);
         var val = self.data('value');
-        self.siblings('input').val(val);
+        self.siblings('input').val(val).trigger('change');
         self.siblings('.rating-clear').show();
       })
       // Remove value on clear
