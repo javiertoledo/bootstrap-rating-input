@@ -6,16 +6,21 @@
 
     // A private function to highlight a star corresponding to a given value
     function _paintValue(ratingInput, value) {
-      var selectedStar = $(ratingInput).find('i[data-value=' + value + ']');
-      selectedStar.removeClass('icon-star-empty').addClass('icon-star');
-      selectedStar.prevAll('i').removeClass('icon-star-empty').addClass('icon-star');
-      selectedStar.nextAll('i').removeClass('icon-star').addClass('icon-star-empty');
+      var self = $(ratingInput),
+          data_icon       = self.attr("data-icon") || "icon-star",
+          data_icon_empty = self.attr("data-icon-empty") || "icon-star-empty",
+          selectedStar = self.find('i[data-value=' + value + ']');
+      selectedStar.removeClass(data_icon_empty).addClass(data_icon);
+      selectedStar.prevAll('i').removeClass(data_icon_empty).addClass(data_icon);
+      selectedStar.nextAll('i').removeClass(data_icon).addClass(data_icon_empty);
     }
 
     // A private function to remove the selected rating
     function _clearValue(ratingInput) {
-      var self = $(ratingInput);
-      self.find('i').removeClass('icon-star').addClass('icon-star-empty');
+      var self = $(ratingInput),
+          data_icon       = self.attr("data-icon") || "icon-star",
+          data_icon_empty = self.attr("data-icon-empty") || "icon-star-empty";
+      self.find('i').removeClass(data_icon).addClass(data_icon_empty);
       self.find('.rating-clear').hide();
       self.find('input').val('').trigger('change');
     }
@@ -27,13 +32,16 @@
         originalInput = $(this[element]),
         max = originalInput.data('max') || 5,
         min = originalInput.data('min') || 0,
-        clearable = originalInput.data('clearable') || null,
+        clearable = originalInput.data('clearable') || null,
         stars = '';
+
+      var data_icon       = originalInput.attr("data-icon") || "icon-star";
+      var data_icon_empty = originalInput.attr("data-icon-empty") || "icon-star-empty";
 
       // HTML element construction
       for (i = min; i <= max; i++) {
         // Create <max> empty stars
-        stars += ['<i class="icon-star-empty" data-value="', i, '"></i>'].join('');
+        stars += ['<i class="'+data_icon_empty+'" data-value="', i, '"></i>'].join('');
       }
       // Add a clear link if clearable option is set
       if (clearable) {
@@ -45,7 +53,7 @@
 
       el = [
         // Rating widget is wrapped inside a div
-        '<div class="rating-input">',
+        '<div class="rating-input" data-icon="'+data_icon+'" data-icon-empty="'+data_icon_empty+'">',
         stars,
         // Value will be hold in a hidden input with same name and id than original input so the form will still work
         '<input type="hidden" name="',
