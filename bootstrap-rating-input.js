@@ -6,16 +6,16 @@
 
     // A private function to highlight a star corresponding to a given value
     function _paintValue(ratingInput, value) {
-      var selectedStar = $(ratingInput).find('i[data-value=' + value + ']');
-      selectedStar.removeClass('icon-star-empty').addClass('icon-star');
-      selectedStar.prevAll('i').removeClass('icon-star-empty').addClass('icon-star');
-      selectedStar.nextAll('i').removeClass('icon-star').addClass('icon-star-empty');
+      var selectedStar = $(ratingInput).find('span[data-value=' + value + ']');
+      selectedStar.removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+      selectedStar.prevAll('span').removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+      selectedStar.nextAll('span').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
     }
 
     // A private function to remove the selected rating
     function _clearValue(ratingInput) {
       var self = $(ratingInput);
-      self.find('i').removeClass('icon-star').addClass('icon-star-empty');
+      self.find('span').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
       self.find('.rating-clear').hide();
       self.find('input').val('').trigger('change');
     }
@@ -27,18 +27,18 @@
         originalInput = $(this[element]),
         max = originalInput.data('max') || 5,
         min = originalInput.data('min') || 0,
-        clearable = originalInput.data('clearable') || null,
+        clearable = originalInput.data('clearable') || null,
         stars = '';
 
       // HTML element construction
       for (i = min; i <= max; i++) {
         // Create <max> empty stars
-        stars += ['<i class="icon-star-empty" data-value="', i, '"></i>'].join('');
+        stars += ['<span class="glyphicon glyphicon-star-empty" data-value="', i, '"></span>'].join('');
       }
       // Add a clear link if clearable option is set
       if (clearable) {
         stars += [
-          ' <a class="rating-clear" style="display:none;" href="javascript:void"><i class="icon-remove"></i> ',
+          ' <a class="rating-clear" style="display:none;" href="javascript:void"><span class="glyphicon glyphicon-remove"></span> ',
           clearable,
           '</a>'].join('');
       }
@@ -65,12 +65,12 @@
     // Give live to the newly generated widgets
     $('.rating-input')
       // Highlight stars on hovering
-      .on('mouseenter', 'i', function () {
+      .on('mouseenter', 'span', function () {
         var self = $(this);
         _paintValue(self.parent(), self.data('value'));
       })
       // View current value while mouse is out
-      .on('mouseleave', 'i', function () {
+      .on('mouseleave', 'span', function () {
         var self = $(this);
         var val = self.siblings('input').val();
         if (val) {
@@ -80,7 +80,7 @@
         }
       })
       // Set the selected value to the hidden field
-      .on('click', 'i', function () {
+      .on('click', 'span', function () {
         var self = $(this);
         var val = self.data('value');
         self.siblings('input').val(val).trigger('change');
