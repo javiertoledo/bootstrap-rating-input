@@ -31,8 +31,9 @@
         classOff = originalInput.data('classoff') || "icon-star-empty",
         classOn = originalInput.data('classon') || "icon-star",
         clearable = originalInput.data('clearable') || null,
+        fixed = originalInput.data('fixed')||false;
         stars = '';
-
+        var live=!fixed;
       // HTML element construction
       for (i = min; i <= max; i++) {
         // Create <max> empty stars
@@ -64,7 +65,8 @@
       originalInput.replaceWith(el);
 
     }
-
+    
+    if (live){
     // Give live to the newly generated widgets
     $('.rating-input')
       // Highlight stars on hovering
@@ -101,6 +103,15 @@
           $(this).find('.rating-clear').show();
         }
       });
+    } else {
+    	$('.rating-input').each(function () {
+            var val = $(this).find('input').val();
+            if (val) {
+              _paintValue(this, val);
+              $(this).find('.rating-clear').show();
+            }
+          });
+    }
 
   };
 
