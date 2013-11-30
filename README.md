@@ -6,6 +6,10 @@ It generates widgets like this:
 
 ![Rating example](http://curso-rails-mini-blog.s3.amazonaws.com/rating.png)
 
+It can also create widgets using any loaded icon set (gylph/fontawsome)
+
+### MINIFIED VERSION IS OUT OF DATE
+
 ## But, why another damn rating plugin???
 
 After searching for existing widgets, I found three categories of them:
@@ -52,23 +56,22 @@ The `rating` class is used in combination with `input[type=number]` to let you a
 
     $('input.my_class').rating();
 
+### I want to change the colors/display of the on/off icons
+
+Set `data-classOn` and `data-classOff` to clasess with the display style you want.
+
+### I want to use icon X instead of a boring star
+
+Set `data-base` to the class for the icon you want to use.  You'll also need to set `data-classOn` and `data-classOff` as discussed above.
+
+## Can I generate read-only stars for displaying?
+
+Yess you can, set `data-fixed` to true this will use the same rendering logic as for the input but not enable any of the events to change value
+
 ## Requirements
 
 You know... [Twitter Bootstrap](http://twitter.github.io/bootstrap) and [jQuery](http://jquery.com)!
 
-## Can I generate read-only stars for displaying?
-
-If you think about it you don't want to use a plugin to generate static HTML code that is as simple as this:
-
-    <i class='icon-star'></i><i class='icon-star'></i><i class='icon-star'></i><i class='icon-star-empty'></i><i class='icon-star-empty'></i>
-
-You can easily generate such code with your favourite template engine and a loop. With Ruby and HAML it could look like this:
-
-    / Given a variable val with the value you want to represent and a variable max that contains the maximum number of stars:
-    - max.times do |i|
-      %i{class: "icon-star#{'-empty' if i>val}"}
-
-Well, HAML is awesome, but you are a programmer, so you'll be able to addapt this to your favorite language...
 
 ## It looks nice, but I want to complain because it doesn't fit my favorite use case
 

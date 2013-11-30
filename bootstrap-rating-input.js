@@ -7,15 +7,15 @@
     // A private function to highlight a star corresponding to a given value
     function _paintValue(ratingInput, value) {
       var selectedStar = $(ratingInput).find('i[data-value=' + value + ']');
-      selectedStar.removeClass('icon-star-empty').addClass('icon-star');
-      selectedStar.prevAll('i').removeClass('icon-star-empty').addClass('icon-star');
-      selectedStar.nextAll('i').removeClass('icon-star').addClass('icon-star-empty');
+      selectedStar.removeClass(classOff).addClass(classOn);
+      selectedStar.prevAll('i').removeClass(classOff).addClass(classOn);
+      selectedStar.nextAll('i').removeClass(classOn).addClass(classOff);
     }
 
     // A private function to remove the selected rating
     function _clearValue(ratingInput) {
       var self = $(ratingInput);
-      self.find('i').removeClass('icon-star').addClass('icon-star-empty');
+      self.find('i').removeClass(classOn).addClass(classOff);
       self.find('.rating-clear').hide();
       self.find('input').val('').trigger('change');
     }
@@ -27,13 +27,17 @@
         originalInput = $(this[element]),
         max = originalInput.data('max') || 5,
         min = originalInput.data('min') || 0,
-        clearable = originalInput.data('clearable') || null,
+        base = originalInput.data('base') || "icon-star-empty",
+        classOff = originalInput.data('classoff') || "icon-star-empty",
+        classOn = originalInput.data('classon') || "icon-star",
+        clearable = originalInput.data('clearable') || null,
+        fixed = originalInput.data('fixed')||false;
         stars = '';
-
+        var live=!fixed;
       // HTML element construction
       for (i = min; i <= max; i++) {
         // Create <max> empty stars
-        stars += ['<i class="icon-star-empty" data-value="', i, '"></i>'].join('');
+        stars += ['<i class="'+base+' '+classOff+'" data-value="', i, '"></i>'].join('');
       }
       // Add a clear link if clearable option is set
       if (clearable) {
@@ -61,7 +65,8 @@
       originalInput.replaceWith(el);
 
     }
-
+    
+    if (live){
     // Give live to the newly generated widgets
     $('.rating-input')
       // Highlight stars on hovering
@@ -98,6 +103,15 @@
           $(this).find('.rating-clear').show();
         }
       });
+    } else {
+    	$('.rating-input').each(function () {
+            var val = $(this).find('input').val();
+            if (val) {
+              _paintValue(this, val);
+              $(this).find('.rating-clear').show();
+            }
+          });
+    }
 
   };
 
