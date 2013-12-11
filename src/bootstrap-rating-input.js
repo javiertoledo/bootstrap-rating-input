@@ -6,16 +6,16 @@
 
     // A private function to highlight a star corresponding to a given value
     function _paintValue(ratingInput, value) {
-      var selectedStar = $(ratingInput).find('span[data-value=' + value + ']');
+      var selectedStar = $(ratingInput).find('[data-value=' + value + ']');
       selectedStar.removeClass('glyphicon-star-empty').addClass('glyphicon-star');
-      selectedStar.prevAll('span').removeClass('glyphicon-star-empty').addClass('glyphicon-star');
-      selectedStar.nextAll('span').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+      selectedStar.prevAll('[data-value]').removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+      selectedStar.nextAll('[data-value]').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
     }
 
     // A private function to remove the selected rating
     function _clearValue(ratingInput) {
       var self = $(ratingInput);
-      self.find('span').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+      self.find('[data-value]').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
       self.find('.rating-clear').hide();
       self.find('input').val('').trigger('change');
     }
@@ -38,7 +38,8 @@
       // Add a clear link if clearable option is set
       if (clearable) {
         stars += [
-          ' <a class="rating-clear" style="display:none;" href="javascript:void"><span class="glyphicon glyphicon-remove"></span> ',
+          ' <a class="rating-clear" style="display:none;" href="javascript:void">',
+          '<span class="glyphicon glyphicon-remove"></span> ',
           clearable,
           '</a>'].join('');
       }
@@ -65,30 +66,34 @@
     // Give live to the newly generated widgets
     $('.rating-input')
       // Highlight stars on hovering
-      .on('mouseenter', 'span', function () {
+      .on('mouseenter', '[data-value]', function () {
         var self = $(this);
-        _paintValue(self.parent(), self.data('value'));
+        _paintValue(self.closest('.rating-input'), self.data('value'));
       })
       // View current value while mouse is out
-      .on('mouseleave', 'span', function () {
+      .on('mouseleave', '[data-value]', function () {
         var self = $(this);
         var val = self.siblings('input').val();
         if (val) {
-          _paintValue(self.parent(), val);
+          _paintValue(self.closest('.rating-input'), val);
         } else {
-          _clearValue(self.parent());
+          _clearValue(self.closest('.rating-input'));
         }
       })
       // Set the selected value to the hidden field
-      .on('click', 'span', function () {
+      .on('click', '[data-value]', function (e) {
         var self = $(this);
         var val = self.data('value');
         self.siblings('input').val(val).trigger('change');
         self.siblings('.rating-clear').show();
+        e.preventDefault();
+        false
       })
       // Remove value on clear
-      .on('click', '.rating-clear', function () {
-        _clearValue($(this).parent());
+      .on('click', '.rating-clear', function (e) {
+        _clearValue($(this).closest('.rating-input'));
+        e.preventDefault();
+        false
       })
       // Initialize view with default value
       .each(function () {

@@ -18,7 +18,11 @@ I don't want to add a whole multipurpose library just to put a few stars in my i
 
 ## Ok, enough talking, tell me how this thing works!
 
-Download `bootstrap-rating-input.min.js` and put it wherever you usually put JavaScripts in your project. Include it on pages where you want to have forms with ratings:
+If you're using bower to manage your frontend dependencies you can install this plugin by just issuing this command:
+
+    bower install bootstrap-rating-input --save
+
+Else you can just download `build/bootstrap-rating-input.min.js`, put it wherever you usually put JavaScripts in your project and include it on pages where you want to have forms with ratings:
 
     <script src="path/to/javascripts/bootstrap-rating-input.min.js" type="text/javascript"></script>
 
@@ -54,22 +58,30 @@ The `rating` class is used in combination with `input[type=number]` to let you a
 
 ## Requirements
 
-You know... [Twitter Bootstrap](http://twitter.github.io/bootstrap) and [jQuery](http://jquery.com)!
+You know... [Twitter Bootstrap](http://getbootstrap.com) and [jQuery](http://jquery.com)!
 
 ## Can I generate read-only stars for displaying?
 
 If you think about it you don't want to use a plugin to generate static HTML code that is as simple as this:
 
-    <i class='icon-star'></i><i class='icon-star'></i><i class='icon-star'></i><i class='icon-star-empty'></i><i class='icon-star-empty'></i>
+    <i class='glyphicon glyphicon-star'></i><i class='glyphicon glyphicon-star'></i><i class='glyphicon glyphicon-star'></i><i class='glyphicon glyphicon-star-empty'></i><i class='glyphicon glyphicon-star-empty'></i>
 
 You can easily generate such code with your favourite template engine and a loop. With Ruby and HAML it could look like this:
 
     / Given a variable val with the value you want to represent and a variable max that contains the maximum number of stars:
     - max.times do |i|
-      %i{class: "icon-star#{'-empty' if i>val}"}
+      %i{class: "glyphicon glyphicon-star#{'-empty' if i>val}"}
 
 Well, HAML is awesome, but you are a programmer, so you'll be able to addapt this to your favorite language...
 
 ## It looks nice, but I want to complain because it doesn't fit my favorite use case
 
 I have implemented this for my project in my environment and sharing it for free. Leave me an issue with your suggestions and I'll eventually push a fix, but this is MIT licensed, so you're welcome to fork this project, do pull requests with fixes and improvements, reimplement better versions of it for your own or do whatever you want, I'll be happy if it becomes useful or inspires at least one more person.
+
+## Ok, I want to contribute
+
+Nice! You're awesome, fork the project, and do whatever changes you want into `src/bootstrap-rating-input.js`. If you're kind enough I'll appreciate that you maintain the minified version updated and to ease this step I've automated minification with grunt, so if you have npm installed you can issue following command to update the minified version:
+
+    $ npm install && grunt
+
+Thanks!!
