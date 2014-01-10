@@ -79,6 +79,7 @@
         var self = $(this);
         var val = self.siblings('input').val();
         var min = self.siblings('input').attr('data-min');
+        var max = self.siblings('input').attr('data-max');
         if (val >= min && val <= max) {
           _paintValue(self.closest('.rating-input'), val);
         } else {
