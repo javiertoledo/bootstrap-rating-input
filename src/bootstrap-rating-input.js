@@ -56,10 +56,10 @@
         '" id="',
         originalInput.attr('id'),
         '" data-min="',
-		min,
-		'" data-max="',
-		max,
-		'" />',
+        min,
+        '" data-max="',
+        max,
+        '" />',
         '</div>'].join('');
 
       // Replace original inputs HTML with the new one
