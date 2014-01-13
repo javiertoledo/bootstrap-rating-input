@@ -17,16 +17,18 @@
       var self = $(ratingInput);
       self.find('[data-value]').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
       self.find('.rating-clear').hide();
-      self.find('input').val('').trigger('change');
+      var input = self.find('input');
+      input.val(input.data('empty-value')).trigger('change');
     }
 
     // Iterate and transform all selected inputs
     for (element = this.length - 1; element >= 0; element--) {
 
-      var el, i, ratingInputs,
+      var el, i,
         originalInput = $(this[element]),
         max = originalInput.data('max') || 5,
         min = originalInput.data('min') || 0,
+        emptyValue = originalInput.data('empty-value'),
         clearable = originalInput.data('clearable') || null,
         stars = '';
 
@@ -59,6 +61,8 @@
         min,
         '" data-max="',
         max,
+        '" data-empty-value="',
+        emptyValue,
         '" />',
         '</div>'].join('');
 
@@ -76,10 +80,11 @@
       })
       // View current value while mouse is out
       .on('mouseleave', '[data-value]', function () {
-        var self = $(this);
-        var val = self.siblings('input').val();
-        var min = self.siblings('input').attr('data-min');
-        var max = self.siblings('input').attr('data-max');
+        var self = $(this),
+          input = self.siblings('input'),
+          val = input.val(),
+          min = input.data('min'),
+          max = input.data('max');
         if (val >= min && val <= max) {
           _paintValue(self.closest('.rating-input'), val);
         } else {
@@ -93,20 +98,26 @@
         self.siblings('input').val(val).trigger('change');
         self.siblings('.rating-clear').show();
         e.preventDefault();
-        false
+        return false;
       })
       // Remove value on clear
       .on('click', '.rating-clear', function (e) {
         _clearValue($(this).closest('.rating-input'));
         e.preventDefault();
-        false
+        return false;
       })
       // Initialize view with default value
       .each(function () {
-        var val = $(this).find('input').val();
-        if (val) {
+        var input = $(this).find('input'),
+          val = input.val(),
+          min = input.data('min'),
+          max = input.data('max');
+        if (val >= min && val <= max) {
           _paintValue(this, val);
           $(this).find('.rating-clear').show();
+        }
+        else {
+          _clearValue(this);
         }
       });
 
