@@ -55,6 +55,10 @@
         originalInput.val(),
         '" id="',
         originalInput.attr('id'),
+        '" data-min="',
+        min,
+        '" data-max="',
+        max,
         '" />',
         '</div>'].join('');
 
@@ -74,7 +78,9 @@
       .on('mouseleave', '[data-value]', function () {
         var self = $(this);
         var val = self.siblings('input').val();
-        if (val) {
+        var min = self.siblings('input').attr('data-min');
+        var max = self.siblings('input').attr('data-max');
+        if (val >= min && val <= max) {
           _paintValue(self.closest('.rating-input'), val);
         } else {
           _clearValue(self.closest('.rating-input'));
