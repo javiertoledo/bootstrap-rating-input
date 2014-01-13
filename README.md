@@ -40,7 +40,15 @@ The plugin replaces your number input by a hidden field with identical name and 
 
 Sure! You can set min and max values adding `data-min` and `data-max`:
 
-    <input class="rating" data-max="4" data-min="0" id="some_id" name="your_awesome_parameter" type="number" />
+    <input class="rating" data-max="5" data-min="1" id="some_id" name="your_awesome_parameter" type="number" />
+
+### Can I set a special value for empty ratings?
+
+You can add the attribute `data-empty-value` to indicate which value should send the form when it have an empty rating. This can be used, for example, to have an special value indicating the user didn't seleted anything:
+
+    <input class="rating" data-max="5" data-min="1" id="some_id" name="your_awesome_parameter" type="number" data-empty-value="0"/>
+
+By default empty ratings will behave like a regular empty field.
 
 ### And what about clearing the stars?
 
