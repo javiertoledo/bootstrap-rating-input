@@ -45,29 +45,18 @@
           clearable,
           '</a>'].join('');
       }
-
+      
+      // Updated to preserve any additional data bindings using attributes.
+      var newEl = originalInput.clone();
+      newEl.attr('type', 'hidden');
       el = [
         // Rating widget is wrapped inside a div
         '<div class="rating-input">',
         stars,
-        // Value will be hold in a hidden input with same name and id than original input so the form will still work
-        '<input type="hidden" name="',
-        originalInput.attr('name'),
-        '" value="',
-        originalInput.val(),
-        '" id="',
-        originalInput.attr('id'),
-        '" data-min="',
-        min,
-        '" data-max="',
-        max,
-        '" data-empty-value="',
-        emptyValue,
-        '" />',
         '</div>'].join('');
 
       // Replace original inputs HTML with the new one
-      originalInput.replaceWith(el);
+      originalInput.replaceWith($(el).append(newEl));
 
     }
 
