@@ -28,7 +28,6 @@
         originalInput = $(this[element]),
         max = originalInput.data('max') || 5,
         min = originalInput.data('min') || 0,
-        emptyValue = originalInput.data('empty-value'),
         clearable = originalInput.data('clearable') || null,
         stars = '';
 
@@ -45,18 +44,21 @@
           clearable,
           '</a>'].join('');
       }
-      
-      // Updated to preserve any additional data bindings using attributes.
-      var newEl = originalInput.clone();
-      newEl.attr('type', 'hidden');
+
+      // Clone the original input to preserve any additional data bindings using attributes.
+      var newInput = originalInput.clone()
+        .attr('type', 'hidden')
+        .data('max', max)
+        .data('min', min);
+
+      // Rating widget is wrapped inside a div
       el = [
-        // Rating widget is wrapped inside a div
         '<div class="rating-input">',
         stars,
         '</div>'].join('');
 
       // Replace original inputs HTML with the new one
-      originalInput.replaceWith($(el).append(newEl));
+      originalInput.replaceWith($(el).append(newInput));
 
     }
 
@@ -101,7 +103,7 @@
           val = input.val(),
           min = input.data('min'),
           max = input.data('max');
-        if (val >= min && val <= max) {
+        if (val !== "" && +val >= min && +val <= max) {
           _paintValue(this, val);
           $(this).find('.rating-clear').show();
         }
