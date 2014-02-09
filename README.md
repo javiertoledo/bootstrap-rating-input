@@ -34,7 +34,7 @@ That's all! When page loads, you'll find a few stars where you'd expect to find 
 
 ### Wait, where has my input gone?
 
-The plugin replaces your number input by a hidden field with identical name and id and adds interactive stars that will catch your clicks and save the selected values into the hidden field. In this way the form can be submitted or value readed by jQuery normally.
+The plugin transforms your number input into a hidden field and wraps it inside a div with the interactive stars that will catch your clicks and save the selected values into the hidden field. In this way the form can be submitted or value readed by jQuery normally.
 
 ### Nice, but I want to use a different number of stars
 
