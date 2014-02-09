@@ -28,7 +28,6 @@
         originalInput = $(this[element]),
         max = originalInput.data('max') || 5,
         min = originalInput.data('min') || 0,
-        emptyValue = originalInput.data('empty-value'),
         clearable = originalInput.data('clearable') || null,
         stars = '';
 
@@ -46,28 +45,20 @@
           '</a>'].join('');
       }
 
+      // Clone the original input to preserve any additional data bindings using attributes.
+      var newInput = originalInput.clone()
+        .attr('type', 'hidden')
+        .data('max', max)
+        .data('min', min);
+
+      // Rating widget is wrapped inside a div
       el = [
-        // Rating widget is wrapped inside a div
         '<div class="rating-input">',
         stars,
-        // Value will be hold in a hidden input with same name and id than original input so the form will still work
-        '<input type="hidden" name="',
-        originalInput.attr('name'),
-        '" value="',
-        originalInput.val(),
-        '" id="',
-        originalInput.attr('id'),
-        '" data-min="',
-        min,
-        '" data-max="',
-        max,
-        '" data-empty-value="',
-        emptyValue,
-        '" />',
         '</div>'].join('');
 
       // Replace original inputs HTML with the new one
-      originalInput.replaceWith(el);
+      originalInput.replaceWith($(el).append(newInput));
 
     }
 
@@ -112,7 +103,7 @@
           val = input.val(),
           min = input.data('min'),
           max = input.data('max');
-        if (val >= min && val <= max) {
+        if (val !== "" && +val >= min && +val <= max) {
           _paintValue(this, val);
           $(this).find('.rating-clear').show();
         }
