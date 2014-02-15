@@ -17,8 +17,12 @@
       var self = $(ratingInput);
       self.find('[data-value]').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
       self.find('.rating-clear').hide();
-      var input = self.find('input');
-      input.val(input.data('empty-value')).trigger('change');
+      var input = self.find('input'),
+          val = input.val(),
+          emptyVal = input.data('empty-value');
+      if(emptyVal && emptyVal != val){
+        input.val(emptyVal).trigger('change');
+      }
     }
 
     // Iterate and transform all selected inputs
