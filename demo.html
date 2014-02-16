@@ -12,6 +12,13 @@
         padding: 50px;
       }
     </style>
+    <script>
+      $(function(){
+        $('input').on('change', function(){
+          alert("Changed: " + $(this).val())
+        });
+      });
+    </script>
   </head>
   <body>
     <h1>The Bootstrap Rating Input <small>in action...</small></h1>

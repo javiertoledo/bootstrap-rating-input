@@ -12,16 +12,20 @@
       selectedStar.nextAll('[data-value]').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
     }
 
-    // A private function to remove the selected rating
+    // A private function to remove the highlight for a selected rating
     function _clearValue(ratingInput) {
       var self = $(ratingInput);
       self.find('[data-value]').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
-      self.find('.rating-clear').hide();
-      var input = self.find('input'),
-          val = input.val(),
-          emptyVal = input.data('empty-value');
-      if(emptyVal && emptyVal != val){
-        input.val(emptyVal).trigger('change');
+    }
+
+    // A private function to change the actual value to the hidden field
+    function _updateValue(input, val) {
+      input.val(val).trigger('change');
+      if (val === input.data('empty-value')) {
+        input.siblings('.rating-clear').hide();
+      }
+      else {
+        input.siblings('.rating-clear').show();
       }
     }
 
@@ -88,16 +92,19 @@
       })
       // Set the selected value to the hidden field
       .on('click', '[data-value]', function (e) {
-        var self = $(this);
-        var val = self.data('value');
-        self.siblings('input').val(val).trigger('change');
-        self.siblings('.rating-clear').show();
+        var self = $(this),
+          val = self.data('value'),
+          input = self.siblings('input');
+        _updateValue(input,val);
         e.preventDefault();
         return false;
       })
       // Remove value on clear
       .on('click', '.rating-clear', function (e) {
-        _clearValue($(this).closest('.rating-input'));
+        var self = $(this),
+          input = self.siblings('input');
+        _updateValue(input, input.data('empty-value'));
+        _clearValue(self.closest('.rating-input'));
         e.preventDefault();
         return false;
       })
@@ -112,6 +119,7 @@
           $(this).find('.rating-clear').show();
         }
         else {
+          input.val(input.data('empty-value'));
           _clearValue(this);
         }
       });
