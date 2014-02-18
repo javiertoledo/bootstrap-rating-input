@@ -53,8 +53,8 @@
           '</a>'].join('');
       }
 
-      // Clone the original input to preserve any additional data bindings using attributes.
-      var newInput = originalInput.clone()
+      // Clone with data and events the original input to preserve any additional data and event bindings.
+      var newInput = originalInput.clone(true)
         .attr('type', 'hidden')
         .data('max', max)
         .data('min', min);
