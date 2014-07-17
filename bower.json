@@ -1,7 +1,7 @@
 {
   "name": "bootstrap-rating-input",
   "main": "build/bootstrap-rating-input.min.js",
-  "version": "0.2.1",
+  "version": "0.2.4",
   "homepage": "https://github.com/javiertoledo/bootstrap-rating-input",
   "authors": [
     "Javier Toledo <javier@theagilemonkeys.com>"
