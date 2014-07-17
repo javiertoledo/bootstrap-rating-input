@@ -55,7 +55,7 @@
 
       // Clone with data and events the original input to preserve any additional data and event bindings.
       var newInput = originalInput.clone(true)
-        .attr('type', 'hidden')
+        .addClass('hidden')
         .data('max', max)
         .data('min', min);
 
