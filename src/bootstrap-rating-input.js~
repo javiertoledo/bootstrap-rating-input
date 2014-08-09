@@ -37,23 +37,21 @@
         originalInput = $(this[element]),
         max = originalInput.data('max') || 5,
         min = originalInput.data('min') || 0,
-        def_val = originalInput.val() || 0,
+        def_val = originalInput.val || 0,
         lib = originalInput.data('icon-lib') || 'glyphicon'
         active = originalInput.data('active-icon') || 'glyphicon-star',
         inactive = originalInput.data('inactive-icon') || 'glyphicon-star-empty',
         clearable = originalInput.data('clearable') || null,
         clearable_i = originalInput.data('clearable-icon') || 'glyphicon-remove',
         stars = '';
-        
+
       // HTML element construction
       for (i = min; i <= max; i++) {
         // Create <max> empty stars
-        if(i  <= def_val){
+        if(i < def_val){
           stars += ['<i class="',lib, ' ', active, '" data-value="', i, '"></i>'].join('');
           }
-        else{
-            stars += ['<i class="',lib, ' ', inactive, '" data-value="', i, '"></i>'].join('')
-            }
+        else{stars += ['<i class="',lib, ' ', inactive, '" data-value="', i, '"></i>'].join('')}
       }
       // Add a clear link if clearable option is set
       if (clearable) {
@@ -72,7 +70,7 @@
         .data('icon-lib', lib)
         .data('active-icon', active)
         .data('inactive-icon', inactive);
-      
+      //alert(newInput.data('active-icon'));
       // Rating widget is wrapped inside a div
       el = [
         '<div class="rating-input">',
