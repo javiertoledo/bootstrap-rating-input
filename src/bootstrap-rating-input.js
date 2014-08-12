@@ -5,17 +5,17 @@
     var element;
 
     // A private function to highlight a star corresponding to a given value
-    function _paintValue(ratingInput, value) {
+    function _paintValue(ratingInput, value, active_icon, inactive_icon) {
       var selectedStar = $(ratingInput).find('[data-value=' + value + ']');
-      selectedStar.removeClass('glyphicon-star-empty').addClass('glyphicon-star');
-      selectedStar.prevAll('[data-value]').removeClass('glyphicon-star-empty').addClass('glyphicon-star');
-      selectedStar.nextAll('[data-value]').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+      selectedStar.removeClass(inactive_icon).addClass(active_icon);
+      selectedStar.prevAll('[data-value]').removeClass(inactive_icon).addClass(active_icon);
+      selectedStar.nextAll('[data-value]').removeClass(active_icon).addClass(inactive_icon);
     }
 
     // A private function to remove the highlight for a selected rating
-    function _clearValue(ratingInput) {
+    function _clearValue(ratingInput, active_icon, inactive_icon) {
       var self = $(ratingInput);
-      self.find('[data-value]').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+      self.find('[data-value]').removeClass(active_icon).addClass(inactive_icon);
     }
 
     // A private function to change the actual value to the hidden field
@@ -28,6 +28,7 @@
       }
     }
 
+
     // Iterate and transform all selected inputs
     for (element = this.length - 1; element >= 0; element--) {
 
@@ -35,19 +36,29 @@
         originalInput = $(this[element]),
         max = originalInput.data('max') || 5,
         min = originalInput.data('min') || 0,
+        def_val = originalInput.val() || 0,
+        lib = originalInput.data('icon-lib') || 'glyphicon'
+        active = originalInput.data('active-icon') || 'glyphicon-star',
+        inactive = originalInput.data('inactive-icon') || 'glyphicon-star-empty',
         clearable = originalInput.data('clearable') || null,
+        clearable_i = originalInput.data('clearable-icon') || 'glyphicon-remove',
         stars = '';
-
+        
       // HTML element construction
       for (i = min; i <= max; i++) {
         // Create <max> empty stars
-        stars += ['<span class="glyphicon glyphicon-star-empty" data-value="', i, '"></span>'].join('');
+        if(i  <= def_val){
+          stars += ['<i class="',lib, ' ', active, '" data-value="', i, '"></i>'].join('');
+          }
+        else{
+            stars += ['<i class="',lib, ' ', inactive, '" data-value="', i, '"></i>'].join('')
+            }
       }
       // Add a clear link if clearable option is set
       if (clearable) {
-        stars += [
+          stars += [
           ' <a class="rating-clear" style="display:none;" href="javascript:void">',
-          '<span class="glyphicon glyphicon-remove"></span> ',
+          '<span class="',lib,' ',clearable_i,'"></span> ',
           clearable,
           '</a>'].join('');
       }
@@ -56,8 +67,11 @@
       var newInput = originalInput.clone(true)
         .addClass('hidden')
         .data('max', max)
-        .data('min', min);
-
+        .data('min', min)
+        .data('icon-lib', lib)
+        .data('active-icon', active)
+        .data('inactive-icon', inactive);
+      
       // Rating widget is wrapped inside a div
       el = [
         '<div class="rating-input">',
@@ -76,7 +90,8 @@
       // Highlight stars on hovering
       .on('mouseenter', '[data-value]', function () {
         var self = $(this);
-        _paintValue(self.closest('.rating-input'), self.data('value'));
+         input = self.siblings('input');
+        _paintValue(self.closest('.rating-input'), self.data('value'), input.data('active-icon'), input.data('inactive-icon'));
       })
       // View current value while mouse is out
       .on('mouseleave', '[data-value]', function () {
@@ -84,11 +99,13 @@
           input = self.siblings('input'),
           val = input.val(),
           min = input.data('min'),
-          max = input.data('max');
+          max = input.data('max'),
+          active = input.data('active-icon'),
+          inactive = input.data('inactive-icon');
         if (val >= min && val <= max) {
-          _paintValue(self.closest('.rating-input'), val);
+          _paintValue(self.closest('.rating-input'), val, active, inactive);
         } else {
-          _clearValue(self.closest('.rating-input'));
+          _clearValue(self.closest('.rating-input'), active, inactive);
         }
       })
       // Set the selected value to the hidden field
@@ -103,9 +120,11 @@
       // Remove value on clear
       .on('click', '.rating-clear', function (e) {
         var self = $(this),
-          input = self.siblings('input');
+          input = self.siblings('input'),
+          active = input.data('active-icon'),
+          inactive = input.data('inactive-icon');
         _updateValue(input, input.data('empty-value'));
-        _clearValue(self.closest('.rating-input'));
+        _clearValue(self.closest('.rating-input'), active, inactive);
         e.preventDefault();
         return false;
       })

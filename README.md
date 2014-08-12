@@ -58,6 +58,20 @@ By default once you set a value it remains set and you can only change it by ano
 
 The content of `data-clearable` will appear as label for the link. You can set a space or a &amp;nbsp; to make it appear as a naked close icon.
 
+### Can I use custom icon classes?
+
+Now you can use custom icons thanks to the awesome contribution by [johncadigan](https://github.com/johncadigan). You can set different icon classes from gliphicons or even load icons from other libraries you're using. For instance here is how you generate a heart rating input with font awesome (You can see it working in the `demo.html` file):
+
+    <input type="number" name="your_awesome_parameter" id="some_id" class="rating" data-clearable="remove" data-icon-lib="fa" data-active-icon="fa-heart" data-inactive-icon="fa-heart-o" data-clearable-icon="fa-trash-o"/>
+
+If you want to use [FontAwesome](http://fontawesome.io/), remember to include the library in your header:
+
+    <header>
+      ...
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+      ...
+    </header>
+
 ### I don't want to be forced to add the `rating` class to the inputs
 
 The `rating` class is used in combination with `input[type=number]` to let you autoload the rating plugin without coding anything, but you can apply this plugin to a input of any type by executing the method `rating` on a jQuery selection:
