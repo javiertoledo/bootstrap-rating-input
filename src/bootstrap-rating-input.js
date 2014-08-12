@@ -23,8 +23,7 @@
       input.val(val).trigger('change');
       if (val === input.data('empty-value')) {
         input.siblings('.rating-clear').hide();
-      }
-      else {
+      } else {
         input.siblings('.rating-clear').show();
       }
     }
@@ -66,7 +65,9 @@
         '</div>'].join('');
 
       // Replace original inputs HTML with the new one
-      originalInput.replaceWith($(el).append(newInput));
+      if (originalInput.parents('.rating-input').length <= 0) {
+        originalInput.replaceWith($(el).append(newInput));
+      }
 
     }
 
