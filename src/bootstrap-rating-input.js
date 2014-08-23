@@ -6,7 +6,7 @@
 
     // A private function to highlight a star corresponding to a given value
     function _paintValue(ratingInput, value, active_icon, inactive_icon) {
-      var selectedStar = $(ratingInput).find('[data-value=' + value + ']');
+      var selectedStar = $(ratingInput).find('[data-value="' + value + '"]');
       selectedStar.removeClass(inactive_icon).addClass(active_icon);
       selectedStar.prevAll('[data-value]').removeClass(inactive_icon).addClass(active_icon);
       selectedStar.nextAll('[data-value]').removeClass(active_icon).addClass(inactive_icon);
@@ -43,7 +43,7 @@
         clearable = originalInput.data('clearable') || null,
         clearable_i = originalInput.data('clearable-icon') || 'glyphicon-remove',
         stars = '';
-        
+
       // HTML element construction
       for (i = min; i <= max; i++) {
         // Create <max> empty stars
@@ -71,7 +71,7 @@
         .data('icon-lib', lib)
         .data('active-icon', active)
         .data('inactive-icon', inactive);
-      
+
       // Rating widget is wrapped inside a div
       el = [
         '<div class="rating-input">',
