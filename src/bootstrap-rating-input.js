@@ -43,15 +43,16 @@
         clearable = originalInput.data('clearable') || null,
         clearable_i = originalInput.data('clearable-icon') || 'glyphicon-remove',
         stars = '';
+		starclass = originalInput.data('star-class') || '';
 
       // HTML element construction
       for (i = min; i <= max; i++) {
         // Create <max> empty stars
         if(i  <= def_val){
-          stars += ['<i class="',lib, ' ', active, '" data-value="', i, '"></i>'].join('');
+          stars += ['<i class="',lib, ' ', active, ' ', starclass, '" data-value="', i, '"></i>'].join('');
           }
         else{
-            stars += ['<i class="',lib, ' ', inactive, '" data-value="', i, '"></i>'].join('')
+            stars += ['<i class="',lib, ' ', inactive, ' ', starclass, '" data-value="', i, '"></i>'].join('')
             }
       }
       // Add a clear link if clearable option is set
@@ -133,7 +134,9 @@
         var input = $(this).find('input'),
           val = input.val(),
           min = input.data('min'),
-          max = input.data('max');
+          max = input.data('max'),
+          active = input.data('active-icon'),
+          inactive = input.data('inactive-icon');
         if (val !== "" && +val >= min && +val <= max) {
           _paintValue(this, val);
           $(this).find('.rating-clear').show();
