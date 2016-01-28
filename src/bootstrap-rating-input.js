@@ -56,7 +56,7 @@
     var ratingOptions = this.options = $.extend({}, DEFAULTS, inputOptions($input), options);
     var $ratingEl = this.$el = createRatingEl($input, ratingOptions);
     $input.addClass(hiddenClass).before($ratingEl);
-    this.highlight(ratingOptions.value);
+    this.highlight($input.val());
   };
 
   Rating.VERSION = '0.3.0';
