@@ -137,7 +137,7 @@
 
   $(function () {
     $('input.rating[type=number]').each(function() {
-      $(this).rating();
+      $(this).rating({value: $(this).val()});
     });
   });
 
