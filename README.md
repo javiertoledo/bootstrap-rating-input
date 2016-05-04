@@ -42,9 +42,15 @@ Sure! You can set min and max values adding `data-min` and `data-max`:
 
     <input class="rating" data-max="5" data-min="1" id="some_id" name="your_awesome_parameter" type="number" />
 
+### Can I set a default value?
+
+Definitely, just set an integer value in your input that makes sense:
+
+    <input type="number" name="your_awesome_parameter" id="some_id" class="rating" data-clearable="remove" value="3"/>
+
 ### Can I set a special value for empty ratings?
 
-You can add the attribute `data-empty-value` to indicate which value should send the form when it have an empty rating. This can be used, for example, to have an special value indicating the user didn't seleted anything:
+You can add the attribute `data-empty-value` to indicate which value should send the form when it have an empty rating. This can be used, for example, to have an special value indicating the user didn't select anything:
 
     <input class="rating" data-max="5" data-min="1" id="some_id" name="your_awesome_parameter" type="number" data-empty-value="0"/>
 

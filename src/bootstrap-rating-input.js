@@ -44,6 +44,7 @@
   var DEFAULTS = {
     'min': 1,
     'max': 5,
+    'empty-value': 0,
     'icon-lib': 'glyphicon',
     'active-icon': 'glyphicon-star',
     'inactive-icon': 'glyphicon-star-empty',
@@ -66,7 +67,7 @@
   Rating.prototype = {
 
     clear: function() {
-      this.setValue(this.options.min - 1);
+      this.setValue(this.options['empty-value']);
     },
 
     setValue: function(value) {
@@ -76,25 +77,27 @@
 
     highlight: function(value, skipClearable) {
       var options = this.options;
-      var normValue = value - options.min + 1;
       var $el = this.$el;
-      var $selected = $el.find(starSelector(normValue));
-      if (normValue) {
+      if (value >= this.options.min && value <= this.options.max) {
+        var $selected = $el.find(starSelector(value));
         toggleActive($selected.prevAll('i').andSelf(), true, options);
         toggleActive($selected.nextAll('i'), false, options);
       } else {
-        toggleActive($selected, false, options);
+        toggleActive($el.find(starSelector()), false, options);
       }
       if (!skipClearable) {
-        $el.find(clearSelector).toggleClass(hiddenClass, !normValue);
+        if (!value || value == this.options['empty-value']) {
+          $el.find(clearSelector).addClass(hiddenClass);
+        } else {
+          $el.find(clearSelector).removeClass(hiddenClass);
+        }
       }
     },
 
     updateInput: function(value) {
-      var normValue = value + this.options.min - 1;
       var $input = this.$input;
-      if ($input.val() != normValue) {
-        $input.val(normValue).change();
+      if ($input.val() != value) {
+        $input.val(value).change();
       }
     }
 

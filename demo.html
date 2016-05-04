@@ -5,7 +5,7 @@
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    <!--script src="src/bootstrap-rating-input.js"></script-->
+    <!-- <script src="src/bootstrap-rating-input.js"></script> -->
     <script src="build/bootstrap-rating-input.min.js"></script>
     <style>
       body {
@@ -25,6 +25,12 @@
     <h1>The Original Bootstrap Rating Input <small>in action...</small></h1>
 
     <p>My rating: <input type="number" name="your_awesome_parameter" id="some_id" class="rating" data-clearable="remove"/></p>
+
+    <h1>Using a default value:</h1>
+    <p>My rating: <input type="number" name="your_awesome_parameter" id="some_id" class="rating" data-clearable="remove" value="3"/></p>   
+
+    <h1>With a minimum value and a special empty-value:</h1>
+    <p>My rating: <input type="number" name="your_awesome_parameter" id="some_id" class="rating" data-clearable="remove" data-min="2" data-empty-value="1"/></p>        
 
     <h1>The Bootstrap Rating input with custom icon classes <small>by <a href="https://github.com/johncadigan">johncadigan</a></small></h1>
 
