@@ -104,6 +104,7 @@
   };
 
   var Plugin = $.fn.rating = function(option) {
+    var args = arguments;
     return this.each(function() {
       var $input = $(this);
       var dataKey = 'rating';
@@ -131,7 +132,7 @@
       if (option === 'clear') {
         rating.clear();
       } else if (option === 'setValue') {
-        rating.setValue(arguments[1]);
+        rating.setValue(args[1]);
       }
     });
   };
