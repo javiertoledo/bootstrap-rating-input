@@ -18,11 +18,22 @@
     var min = options.min;
     var max = options.max;
     var clearable = options.clearable;
-    var $ratingEl = $('<div class="rating-input"></div>');
+    var container = options.container;
+    var $ratingEl = $('<' + container + ' class="rating-input"></' + container + '>');
+    
+    if (options.class) {
+      $ratingEl.addClass(options.class);
+    }
+
+    if (options.id) {
+      $ratingEl.attr('id', options.id);
+    }
+
     for (var i = min; i <= max; i++) {
       $ratingEl.append('<i class="' + options['icon-lib'] + '" data-value="' + i + '"></i>');
     }
-    if (clearable) {
+    var editable = $ratingEl.editable = options.editable;
+    if (editable && clearable) {
       $ratingEl.append('&nbsp;').append(
         '<a class="' + clearClass + '">' +
           '<i class="' + options['icon-lib'] + ' ' + options['clearable-icon'] + '"/>' +
@@ -49,7 +60,11 @@
     'active-icon': 'glyphicon-star',
     'inactive-icon': 'glyphicon-star-empty',
     'clearable': '',
-    'clearable-icon': 'glyphicon-remove'
+    'clearable-icon': 'glyphicon-remove',
+    'container': 'div',
+    'editable': 'true',
+    'id': '',
+    'class': ''
   };
 
   var Rating = function(input, options) {
@@ -113,22 +128,23 @@
 
       if (!rating) {
         rating = new Rating($input, options);
-        rating.$el
-          .on('mouseenter', starSelector(), function () {
-            rating.highlight($(this).data('value'), true);
-          })
-          .on('mouseleave', starSelector(), function () {
-            rating.highlight($input.val(), true);
-          })
-          .on('click', starSelector(), function() {
-            rating.setValue($(this).data('value'));
-          })
-          .on('click', clearSelector, function() {
-            rating.clear();
-          });
+        if (rating.$el.editable) {
+          rating.$el
+            .on('mouseenter', starSelector(), function () {
+              rating.highlight($(this).data('value'), true);
+            })
+            .on('mouseleave', starSelector(), function () {
+              rating.highlight($input.val(), true);
+            })
+            .on('click', starSelector(), function() {
+              rating.setValue($(this).data('value'));
+            })
+            .on('click', clearSelector, function() {
+              rating.clear();
+            });
+        }
         $input.data(dataKey, rating);
       }
-
       if (option === 'clear') {
         rating.clear();
       } else if (option === 'setValue') {
