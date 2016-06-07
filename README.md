@@ -22,7 +22,7 @@ If you're using bower to manage your frontend dependencies you can install this 
 
     bower install bootstrap-rating-input --save
 
-Else you can just download `build/bootstrap-rating-input.min.js`, put it wherever you usually put JavaScripts in your project and include it on pages where you want to have forms with ratings:
+Otherwise you can just download `build/bootstrap-rating-input.min.js`, put it wherever you usually put JavaScripts in your project and include it on pages where you want to have forms with ratings:
 
     <script src="path/to/javascripts/bootstrap-rating-input.min.js" type="text/javascript"></script>
 
@@ -30,11 +30,11 @@ Now add a input of type *number* to your forms and add the class `rating` to it:
 
     <input type="number" name="your_awesome_parameter" id="some_id" class="rating" />
 
-That's all! When page loads, you'll find a few stars where you'd expect to find the input. It works just like most of rating plugins, but you don't need to learn anything about options or initializations, it just works out of the box.
+That's all! When page loads, you'll find a few stars where you'd expect to find the input. It works just like most of rating plugins, but for the basic usage you don't need to learn anything else about options or initializations, it just works out of the box.
 
-### Wait, where has my input gone?
+### Wait, where is my input?
 
-The plugin transforms your number input into a hidden field and wraps it inside a div with the interactive stars that will catch your clicks and save the selected values into the hidden field. In this way the form can be submitted or value readed by jQuery normally.
+The plugin transforms your number input into a hidden field and wraps it inside a `div` (Or a `span` with the inline option) along with the star icons that will catch your clicks and save the selected values into the hidden field. By doing this, the field still exist in your form and can be submitted or its current value read by jQuery normally. Any CSS class in addition to `rating` will be copied to the wrapper for further styling options.
 
 ### Nice, but I want to use a different number of stars
 
@@ -44,13 +44,13 @@ Sure! You can set min and max values adding `data-min` and `data-max`:
 
 ### Can I set a default value?
 
-Definitely, just set an integer value in your input that makes sense:
+Definitely, just set an integer value in your input that's within your min-max range':
 
     <input type="number" name="your_awesome_parameter" id="some_id" class="rating" data-clearable="remove" value="3"/>
 
 ### Can I set a special value for empty ratings?
 
-You can add the attribute `data-empty-value` to indicate which value should send the form when it have an empty rating. This can be used, for example, to have an special value indicating the user didn't select anything:
+You can add the attribute `data-empty-value` to indicate which value should send the form when it have an empty rating. This can be used, for example, to have an special value indicating the user didn't perform a selection:
 
     <input class="rating" data-max="5" data-min="1" id="some_id" name="your_awesome_parameter" type="number" data-empty-value="0"/>
 
@@ -62,7 +62,7 @@ By default once you set a value it remains set and you can only change it by ano
 
     <input class="rating" data-clearable="remove" id="some_id" name="your_awesome_parameter" type="number" />
 
-The content of `data-clearable` will appear as label for the link. You can set a space or a &amp;nbsp; to make it appear as a naked close icon.
+The content of `data-clearable` will appear as label for the link. If no value is provided the plugin will display just the clear icon.
 
 ### Can I use custom icon classes?
 
@@ -78,29 +78,31 @@ If you want to use [FontAwesome](http://fontawesome.io/), remember to include th
       ...
     </header>
 
+### Inline render
+
+If you need to render the rating input inline with your text, use the `data-inline` option:
+
+    <input type="number" name="your_awesome_parameter" id="some_id" class="rating" data-inline />
+
+This will wrap the input in a `span` element instead of the default `div`.
+
+### Readonly mode
+
+Thanks to the contribution by [iyedb](https://github.com/iyedb) this plugin now features a read-only mode. Just add the attribute `data-readonly` to do the trick:
+
+    <input type="number" name="your_awesome_parameter" id="some_id" class="rating" value="2" data-readonly />
+
 ### I don't want to be forced to add the `rating` class to the inputs
 
-The `rating` class is used in combination with `input[type=number]` to let you autoload the rating plugin without coding anything, but you can apply this plugin to a input of any type by executing the method `rating` on a jQuery selection:
+The `rating` class is used in combination with `input[type=number]` to let you autoload the rating plugin without coding anything, but you can apply this plugin to a input of any type by executing the method `rating` on a jQuery selection and pass the options in an object:
 
-    $('input.my_class').rating();
+    $('input.my_class').rating({
+      clearable: true
+    });
 
 ## Requirements
 
 You know... [Twitter Bootstrap](http://getbootstrap.com) and [jQuery](http://jquery.com)!
-
-## Can I generate read-only stars for displaying?
-
-If you think about it you don't want to use a plugin to generate static HTML code that is as simple as this:
-
-    <i class='glyphicon glyphicon-star'></i><i class='glyphicon glyphicon-star'></i><i class='glyphicon glyphicon-star'></i><i class='glyphicon glyphicon-star-empty'></i><i class='glyphicon glyphicon-star-empty'></i>
-
-You can easily generate such code with your favourite template engine and a loop. With Ruby and HAML it could look like this:
-
-    / Given a variable val with the value you want to represent and a variable max that contains the maximum number of stars:
-    - max.times do |i|
-      %i{class: "glyphicon glyphicon-star#{'-empty' if i>val}"}
-
-Well, HAML is awesome, but you are a programmer, so you'll be able to addapt this to your favorite language...
 
 ## It looks nice, but I want to complain because it doesn't fit my favorite use case
 

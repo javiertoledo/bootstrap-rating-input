@@ -1,81 +1,84 @@
-(function($) {
+(function ($) {
+  'use strict';
 
-  var clearClass = 'rating-clear';
-  var clearSelector = '.' + clearClass;
-  var hiddenClass = 'hidden';
+  var clearClass = 'rating-clear',
+    clearSelector = '.' + clearClass,
+    hiddenClass = 'hidden',
+    DEFAULTS = {
+      'min': 1,
+      'max': 5,
+      'empty-value': 0,
+      'iconLib': 'glyphicon',
+      'activeIcon': 'glyphicon-star',
+      'inactiveIcon': 'glyphicon-star-empty',
+      'clearable': false,
+      'clearableIcon': 'glyphicon-remove',
+      'inline': false,
+      'readonly': false
+    };
 
-  var starSelector = function(value) {
+  function starSelector(value) {
     return '[data-value' + (value ? ('=' + value) : '') + ']';
-  };
+  }
 
-  var toggleActive = function($el, active, options) {
-    var activeClass = options['active-icon'];
-    var inactiveClass = options['inactive-icon'];
+  function toggleActive($el, active, options) {
+    var activeClass = options.activeIcon,
+      inactiveClass = options.inactiveIcon;
     $el.removeClass(active ? inactiveClass : activeClass).addClass(active ? activeClass : inactiveClass);
-  };
+  }
 
-  var createRatingEl = function($input, options) {
-    var min = options.min;
-    var max = options.max;
-    var clearable = options.clearable;
-    var container = options.container;
-    var $ratingEl = $('<' + container + ' class="rating-input"></' + container + '>');
-    
-    if (options.class) {
-      $ratingEl.addClass(options.class);
+  function parseOptions($input, options) {
+    var data = $.extend({}, DEFAULTS, $input.data(), options);
+    data.inline = data.inline === '' || data.inline;
+    data.readonly = data.readonly === '' || data.readonly;
+    if (data.clearable === false) {
+      data.clearableLabel = '';
+    } else {
+      data.clearableLabel = data.clearable;
+    }
+    data.clearable = data.clearable === '' || data.clearable;
+    return data;
+  }
+
+  function createRatingEl($input, options) {
+    // Inline option
+    if (options.inline) {
+      var $ratingEl = $('<span class="rating-input"></span>');
+    } else {
+      var $ratingEl = $('<div class="rating-input"></div>');
     }
 
-    if (options.id) {
-      $ratingEl.attr('id', options.id);
+    // Copy original classes but the rating class
+    $ratingEl.addClass($input.attr('class'));
+    $ratingEl.removeClass('rating');
+
+    // Render rating icons
+    for (var i = options.min; i <= options.max; i++) {
+      $ratingEl.append('<i class="' + options.iconLib + '" data-value="' + i + '"></i>');
     }
 
-    for (var i = min; i <= max; i++) {
-      $ratingEl.append('<i class="' + options['icon-lib'] + '" data-value="' + i + '"></i>');
-    }
-    var editable = $ratingEl.editable = options.editable;
-    if (editable && clearable) {
+    // Render clear link
+    if (options.clearable && !options.readonly) {
       $ratingEl.append('&nbsp;').append(
         '<a class="' + clearClass + '">' +
-          '<i class="' + options['icon-lib'] + ' ' + options['clearable-icon'] + '"/>' +
-          clearable +
+          '<i class="' + options.iconLib + ' ' + options.clearableIcon + '"/>' +
+          options.clearableLabel +
         '</a>'
       );
     }
     return $ratingEl;
-  };
-
-  var inputOptions = function($input) {
-    var options = {};
-    for (option in DEFAULTS) {
-      options[option] = $input.data(option);
-    };
-    return options;
-  };
-
-  var DEFAULTS = {
-    'min': 1,
-    'max': 5,
-    'empty-value': 0,
-    'icon-lib': 'glyphicon',
-    'active-icon': 'glyphicon-star',
-    'inactive-icon': 'glyphicon-star-empty',
-    'clearable': '',
-    'clearable-icon': 'glyphicon-remove',
-    'container': 'div',
-    'editable': 'true',
-    'id': '',
-    'class': ''
-  };
+  }
 
   var Rating = function(input, options) {
-    var $input = this.$input = $(input);
-    var ratingOptions = this.options = $.extend({}, DEFAULTS, inputOptions($input), options);
-    var $ratingEl = this.$el = createRatingEl($input, ratingOptions);
+    var $input = this.$input = input;
+    this.options = parseOptions($input, options);
+    var $ratingEl = this.$el = createRatingEl($input, this.options);
     $input.addClass(hiddenClass).before($ratingEl);
+    $input.attr('type', 'hidden');
     this.highlight($input.val());
   };
 
-  Rating.VERSION = '0.3.0';
+  Rating.VERSION = '0.4.0';
 
   Rating.DEFAULTS = DEFAULTS;
 
@@ -118,44 +121,32 @@
 
   };
 
-  var Plugin = $.fn.rating = function(option) {
-    var args = arguments;
-    return this.each(function() {
+  var Plugin = $.fn.rating = function(options) {
+    return this.filter('input[type=number]').each(function() {
       var $input = $(this);
-      var dataKey = 'rating';
-      var rating = $input.data(dataKey);
-      var options = typeof option === 'object' && option;
-
-      if (!rating) {
-        rating = new Rating($input, options);
-        if (rating.$el.editable) {
-          rating.$el
-            .on('mouseenter', starSelector(), function () {
-              rating.highlight($(this).data('value'), true);
-            })
-            .on('mouseleave', starSelector(), function () {
-              rating.highlight($input.val(), true);
-            })
-            .on('click', starSelector(), function() {
-              rating.setValue($(this).data('value'));
-            })
-            .on('click', clearSelector, function() {
-              rating.clear();
-            });
-        }
-        $input.data(dataKey, rating);
-      }
-      if (option === 'clear') {
-        rating.clear();
-      } else if (option === 'setValue') {
-        rating.setValue(args[1]);
+      var optionsObject = typeof options === 'object' && options || {};
+      var rating = new Rating($input, optionsObject);
+      if (!rating.options.readonly) {
+        rating.$el
+          .on('mouseenter', starSelector(), function() {
+            rating.highlight($(this).data('value'), true);
+          })
+          .on('mouseleave', starSelector(), function() {
+            rating.highlight($input.val(), true);
+          })
+          .on('click', starSelector(), function() {
+            rating.setValue($(this).data('value'));
+          })
+          .on('click', clearSelector, function() {
+            rating.clear();
+          });
       }
     });
   };
 
   Plugin.Constructor = Rating;
 
-  $(function () {
+  $(function() {
     $('input.rating[type=number]').each(function() {
       $(this).rating();
     });
