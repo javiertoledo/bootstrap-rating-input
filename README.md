@@ -64,6 +64,12 @@ By default once you set a value it remains set and you can only change it by ano
 
 The content of `data-clearable` will appear as label for the link. If no value is provided the plugin will display just the clear icon.
 
+You can also add a `data-clearable-remain` attribute to `true` if you'd like the clear link to remain up even when there are no stars selected:
+
+    <input class="rating" data-clearable="remove" data-clearable-remain="true" id="some_id" name="your_awesome_parameter" type="number" />
+
+By default the clear link will be hidden whenever no stars are selected.
+
 ### Can I use custom icon classes?
 
 Now you can use custom icons thanks to the awesome contribution by [johncadigan](https://github.com/johncadigan). You can set different icon classes from gliphicons or even load icons from other libraries you're using. For instance here is how you generate a heart rating input with font awesome (You can see it working in the `demo.html` file):
