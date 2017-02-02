@@ -1,4 +1,4 @@
-# Bootstrap Rating Input in 2Kb
+# Bootstrap Rating Input
 
 This is another plugin that eases the generation of rating stars for jQuery and Bootstrap.
 
@@ -8,13 +8,9 @@ It generates widgets like this:
 
 ## But, why another damn rating plugin???
 
-After searching for existing widgets, I found three categories of them:
+Because it made sense back in 2013 when most rating plugins depended on PNG images. As noted by [dandv](https://github.com/dandv), in 2016 [there are quite a few modern libraries that don't depend on them anymore](https://github.com/javiertoledo/bootstrap-rating-input/issues/54).
 
-  - The ones that depends on PNG images.
-  - The ones that adds A LOT of JavaScript and CSS code to my project.
-  - The ones that adds A LOT of JavaScript and CSS code and depends on PNG images.
-
-I don't want to add a whole multipurpose library just to put a few stars in my interface, I want my rating stars to look awesome in retina screens without worrying about image versions and dynamically replacing them, and Bootstrap already includes a set of beautifully designed vectorial icons by Glyphicons, so I thought I could create something simpler.
+And also... why not!!?
 
 ## Ok, enough talking, tell me how this thing works!
 
