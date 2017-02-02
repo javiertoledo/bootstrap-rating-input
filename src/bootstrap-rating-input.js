@@ -13,6 +13,7 @@
       'inactiveIcon': 'glyphicon-star-empty',
       'clearable': false,
       'clearableIcon': 'glyphicon-remove',
+      'clearableRemain': false,
       'inline': false,
       'readonly': false
     };
@@ -104,10 +105,14 @@
         toggleActive($el.find(starSelector()), false, options);
       }
       if (!skipClearable) {
-        if (!value || value == this.options['empty-value']) {
-          $el.find(clearSelector).addClass(hiddenClass);
-        } else {
+        if (this.options.clearableRemain) {
           $el.find(clearSelector).removeClass(hiddenClass);
+        } else {
+          if (!value || value == this.options['empty-value']) {
+            $el.find(clearSelector).addClass(hiddenClass);
+          } else {
+            $el.find(clearSelector).removeClass(hiddenClass);
+          }
         }
       }
     },
