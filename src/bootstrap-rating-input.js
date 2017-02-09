@@ -34,8 +34,6 @@
     data.readonly = data.readonly === '' || data.readonly;
     if (data.clearable === false) {
       data.clearableLabel = '';
-    } else {
-      data.clearableLabel = data.clearable;
     }
     data.clearable = data.clearable === '' || data.clearable;
     return data;
