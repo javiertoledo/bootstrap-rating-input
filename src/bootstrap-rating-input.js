@@ -99,7 +99,7 @@
       var $el = this.$el;
       if (value >= this.options.min && value <= this.options.max) {
         var $selected = $el.find(starSelector(value));
-        toggleActive($selected.prevAll('i').andSelf(), true, options);
+        toggleActive($selected.prevAll('i').addBack(), true, options);
         toggleActive($selected.nextAll('i'), false, options);
       } else {
         toggleActive($el.find(starSelector()), false, options);
