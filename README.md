@@ -1,4 +1,5 @@
 # Bootstrap Rating Input
+[![CDNJS version](https://img.shields.io/cdnjs/v/bootstrap-rating-input.svg)](https://cdnjs.com/libraries/bootstrap-rating-input)
 
 This is another plugin that eases the generation of rating stars for jQuery and Bootstrap.
 
