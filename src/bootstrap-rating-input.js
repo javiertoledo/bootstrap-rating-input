@@ -7,6 +7,7 @@
     DEFAULTS = {
       'min': 1,
       'max': 5,
+      'step': 1,
       'empty-value': 0,
       'iconLib': 'glyphicon',
       'activeIcon': 'glyphicon-star',
@@ -54,7 +55,7 @@
     $ratingEl.removeClass('rating');
 
     // Render rating icons
-    for (var i = options.min; i <= options.max; i++) {
+    for (var i = options.min; i <= options.max; i += options.step) {
       $ratingEl.append('<i class="' + options.iconLib + '" data-value="' + i + '"></i>');
     }
 
