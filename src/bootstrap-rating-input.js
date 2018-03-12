@@ -15,7 +15,8 @@
       'clearableIcon': 'glyphicon-remove',
       'clearableRemain': false,
       'inline': false,
-      'readonly': false
+      'readonly': false,
+      'copyClasses': true
     };
 
   function starSelector(value) {
@@ -50,8 +51,10 @@
     }
 
     // Copy original classes but the rating class
-    $ratingEl.addClass($input.attr('class'));
-    $ratingEl.removeClass('rating');
+    if (options.copyClasses) {
+      $ratingEl.addClass($input.attr('class'));
+      $ratingEl.removeClass('rating');
+    }
 
     // Render rating icons
     for (var i = options.min; i <= options.max; i++) {
