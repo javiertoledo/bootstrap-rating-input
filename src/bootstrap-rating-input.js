@@ -149,6 +149,7 @@
             rating.clear();
           });
       }
+      $input.data('rating', rating);
     });
   };
 
